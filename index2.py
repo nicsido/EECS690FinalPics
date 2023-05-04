@@ -1,9 +1,39 @@
 import cv2
-import numpy as np
+from PIL import Image
 
 
-# Load the image
-img = cv2.imread('imagePin1.png')
+# Open the image file
+image = Image.open('imagePin1.png')
+
+
+# Set the new maximum width and height for the image
+max_width = 1050
+max_height = 1050
+
+
+# Get the original size of the image
+width, height = image.size
+
+
+# Calculate the new dimensions while maintaining the aspect ratio
+if width > height:
+    new_width = max_width
+    new_height = int(height * (max_width / width))
+else:
+    new_height = max_height
+    new_width = int(width * (max_height / height))
+
+
+# Resize the image using the ANTIALIAS filter
+resized_image = image.resize((new_width, new_height), Image.ANTIALIAS)
+
+
+# Save the resized image as a new file
+resized_image.save('resized_image.png')
+
+
+# Load the resized image
+img = cv2.imread('resized_image.png')
 
 
 # Convert the image to grayscale
